@@ -105,3 +105,9 @@ https://sketchfab.com/3d-models/head-scan-13-photogrammetry-5e6d2804405449e6b3bd
 ```
 
 原页面标注为 CC Attribution，使用和分发时请保留作者署名。
+
+## 许可证
+
+- 项目代码使用 MIT License，详见 `LICENSE`。
+- Three.js 和人头模型等第三方内容使用各自原始许可证，详见 `THIRD_PARTY_NOTICES.md`。
+- 人头模型不属于本项目 MIT License 覆盖范围，分发和使用时请保留原作者署名。
