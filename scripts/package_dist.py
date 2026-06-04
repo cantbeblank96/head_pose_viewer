@@ -18,8 +18,11 @@ FILES = [
     "README.md",
     "LICENSE",
     "THIRD_PARTY_NOTICES.md",
+    "requirements-cli.txt",
+    "head_pose",
     "run.sh",
     "run_windows.bat",
+    "cli/render.html",
     "data/angles.example.csv",
     "model/person_0/README.md",
     "model/person_0/GLB/head_scan_13_photogrammetry_1k.glb",
@@ -36,6 +39,7 @@ DIRECTORIES = [
 
 EXCLUDED_SCRIPT_NAMES = {
     "package_dist.py",
+    "head_pose_cli.py",
 }
 
 

@@ -44,6 +44,47 @@ model/person_0/GLB/head_scan_13_photogrammetry_4k.glb
 
 如果加载较慢，可以在页面模型下拉框切换到 `1k` 版本。
 
+## 命令行渲染（服务器推荐）
+
+无需打开浏览器界面，可在终端按角度直接生成 PNG。实现方式为 Playwright 无头调用与网页版相同的 Three.js 渲染逻辑。
+
+### 安装 CLI 依赖
+
+```bash
+pip install -r requirements-cli.txt
+python scripts/head_pose_cli.py install-browsers
+```
+
+`install-browsers` 每台机器只需执行一次，用于下载 Chromium。
+
+### 单张渲染
+
+```bash
+./head_pose render --yaw 30 --pitch 0 --roll 0 -o result/pose.png
+```
+
+或使用 Python：
+
+```bash
+python scripts/head_pose_cli.py render --yaw 30 --pitch 0 --roll 0 -o result/pose.png
+```
+
+### 批量渲染
+
+```bash
+./head_pose batch --angles data/angles.example.csv --output-dir result/batch
+```
+
+### 常用参数
+
+- `--model`：GLB 路径，默认 `model/person_0/GLB/head_scan_13_photogrammetry_4k.glb`
+- `--base-yaw`、`--base-pitch`、`--base-roll`：基础校准角
+- `--width`、`--height`：输出分辨率，默认 `1024`
+
+角度定义与网页版一致：`yaw` 绕 Y 轴，`pitch` 绕 X 轴，`roll` 绕 Z 轴。
+
+若 CLI 输出全黑图片，通常是 Linux 无头环境下 WebGL 未启用；本项目已在 Chromium 启动参数中开启 ANGLE/WebGL。仍异常时可检查是否使用最新版 `scripts/head_pose_cli.py`。
+
 ## 打包
 
 生成离线分发 tar 包：

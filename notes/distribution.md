@@ -22,3 +22,4 @@ head_pose_viewer/
 - Windows 同事即使没有 Python，也可以双击 `run_windows.bat` 运行。
 - Linux/macOS 同事需要本机有 `python3` 或 `python`，然后运行 `./run.sh`。
 - 分发包只包含运行需要的 GLB 模型，不包含原始 FBX、glTF zip 或 USDZ 下载包。
+- 服务器上可使用 `./head_pose render ...` 命令行工具批量出图，需先安装 `requirements-cli.txt` 并执行 `install-browsers`。

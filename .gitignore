@@ -3,6 +3,8 @@ reference/
 
 result/
 
+.venv/
+
 dist/*.tar
 
 **/.idea/
