@@ -2,6 +2,8 @@
 
 一个本地浏览器工具，用于加载 Sketchfab 下载的人头 GLB 模型，输入精确的 `yaw / pitch / roll` 角度进行预览，并导出单张或批量姿态截图。
 
+<img src="README.assets/w-AfZPoOg99bHuh_5-85_H4sgCFmZor91ITvS2MlJfg-1780562021842-3.png" alt="w-AfZPoOg99bHuh_5-85_H4sgCFmZor91ITvS2MlJfg" style="zoom:50%;" />
+
 ## 运行
 
 ### 一键启动
