@@ -13,11 +13,14 @@ Head Pose Viewer is a **static browser tool** (no build step) plus a **Python + 
 
 The head models under `model/person_0/**` are **Git LFS** pointers, and the LFS objects currently return **404 on the remote** (`git lfs pull` fails with "Object does not exist on the server"). The default model path `model/person_0/GLB/head_scan_13_photogrammetry_4k.glb` therefore does NOT load out of the box.
 
-To run/test rendering, supply a substitute `.glb`:
-- CLI: pass `--model <path-to-any.glb>` (the path must resolve under the repo root so the built-in static server can serve it; e.g. put it in the gitignored `result/` dir).
-- Web: temporarily copy a `.glb` over the default path, then restore the LFS pointer with `git checkout -- <path>` afterward. Do NOT commit a substitute model over the LFS pointer.
+There is a committed lightweight stand-in model at `model/sample_head.glb` (a small asymmetric head: sphere + nose cone + eyes + mouth, so yaw/pitch/roll are visibly distinguishable). It is a plain git file (NOT LFS — the `.gitattributes` LFS rules only match `model/person_0/**`). The web viewer defaults its dropdown to this sample so the app works out of the box without the LFS assets.
 
-A quick way to generate a test head GLB (sphere + nose cone + eyes + mouth, useful because it is asymmetric so yaw/pitch/roll are visibly distinguishable) is to use `trimesh` (`pip install trimesh numpy`), build a small scene, and `scene.export("test.glb")`. `trimesh`/`numpy` are only needed for generating test assets, not for the app itself.
+To run/test rendering without the real models:
+- Web: just use the default "内置示例 / Sample head" dropdown option.
+- CLI: pass `--model model/sample_head.glb` (the path must resolve under the repo root so the built-in static server can serve it).
+- If you ever need a substitute over the real LFS path, copy a `.glb` over it and restore the pointer with `git checkout -- <path>` afterward — do NOT commit a model over the LFS pointer.
+
+`trimesh`/`numpy` were used only to generate `model/sample_head.glb` and are not needed by the app.
 
 ### Lint / "tests"
 
