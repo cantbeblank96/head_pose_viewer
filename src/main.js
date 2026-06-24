@@ -42,6 +42,12 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.08;
+// 鼠标拖动直接驱动模型姿态（而非相机轨道），这样拖动结果会同步回 yaw/pitch/roll
+// 输入框，并与精确输入、批量导出保持同一数据源。缩放/平移仍交给 OrbitControls。
+controls.enableRotate = false;
+
+const DRAG_SENSITIVITY = 0.4;
+const dragState = { active: false, lastX: 0, lastY: 0, rollMode: false };
 
 const loader = new GLTFLoader();
 const modelRoot = new THREE.Group();
@@ -70,6 +76,63 @@ dom.exportBatch.addEventListener("click", () => exportBatchImages());
   dom.basePitch,
   dom.baseRoll,
 ].forEach((input) => input.addEventListener("input", applyPose));
+
+setupPoseDrag();
+
+function setupPoseDrag() {
+  dom.canvas.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0) {
+      return;
+    }
+    dragState.active = true;
+    dragState.rollMode = event.shiftKey;
+    dragState.lastX = event.clientX;
+    dragState.lastY = event.clientY;
+    dom.canvas.setPointerCapture(event.pointerId);
+  });
+
+  dom.canvas.addEventListener("pointermove", (event) => {
+    if (!dragState.active) {
+      return;
+    }
+    const dx = event.clientX - dragState.lastX;
+    const dy = event.clientY - dragState.lastY;
+    dragState.lastX = event.clientX;
+    dragState.lastY = event.clientY;
+
+    if (dragState.rollMode) {
+      setAngleInput(dom.roll, readNumber(dom.roll) + dx * DRAG_SENSITIVITY);
+    } else {
+      setAngleInput(dom.yaw, readNumber(dom.yaw) + dx * DRAG_SENSITIVITY);
+      setAngleInput(dom.pitch, readNumber(dom.pitch) + dy * DRAG_SENSITIVITY);
+    }
+    applyPose();
+  });
+
+  const endDrag = (event) => {
+    if (!dragState.active) {
+      return;
+    }
+    dragState.active = false;
+    try {
+      dom.canvas.releasePointerCapture(event.pointerId);
+    } catch (error) {
+      // 指针已释放时忽略。
+    }
+  };
+
+  dom.canvas.addEventListener("pointerup", endDrag);
+  dom.canvas.addEventListener("pointercancel", endDrag);
+}
+
+function setAngleInput(input, value) {
+  input.value = wrapDeg(value);
+}
+
+function wrapDeg(value) {
+  const wrapped = (((value + 180) % 360) + 360) % 360 - 180;
+  return Math.round(wrapped);
+}
 
 function initLights() {
   const ambient = new THREE.HemisphereLight(0xffffff, 0x606060, 2.2);

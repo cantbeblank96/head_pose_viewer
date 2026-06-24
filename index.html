@@ -181,13 +181,15 @@
         <h2>模型</h2>
         <label for="modelPath">GLB 路径</label>
         <select id="modelPath">
-          <option value="model/person_0/GLB/head_scan_13_photogrammetry_4k.glb" selected>person_0 / GLB 4k</option>
+          <option value="model/sample_head.glb" selected>内置示例 / Sample head（无需下载）</option>
+          <option value="model/person_0/GLB/head_scan_13_photogrammetry_4k.glb">person_0 / GLB 4k</option>
           <option value="model/person_0/GLB/head_scan_13_photogrammetry_1k.glb">person_0 / GLB 1k</option>
           <option value="model/person_0/GLB/head_scan_13_photogrammetry_8k.glb">person_0 / GLB 8k</option>
         </select>
         <button id="loadModel">重新加载模型</button>
 
         <h2>姿态角度</h2>
+        <p class="hint">在右侧视图中拖动鼠标可直接转动模型，角度会实时同步到下方输入框（按住 Shift 拖动控制 Roll）。</p>
         <div class="grid-3">
           <div>
             <label for="yaw">Yaw</label>
